@@ -57,7 +57,7 @@
         function generateParticles(x, y) {
             for (let i = 0; i < 200; i++) {
                 const speed = Math.random() * 2 + 1;
-                const direction = Math.random() * Math.PI * 2;
+                const direction = Math.random() * Math.PI * 2; // 确保方向正常
                 const size = Math.random() * 2 + 1;
                 particles.push(new Particle(x, y, speed, direction, size));
             }
