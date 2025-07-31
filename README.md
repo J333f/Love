@@ -28,18 +28,18 @@
 
         // 粒子类
         class Particle {
-            constructor(x, y, speed, direction, size) {
+            constructor(x, y, speed, angle, size) {
                 this.x = x;
                 this.y = y;
                 this.speed = speed;
-                this.direction = direction;
+                this.angle = angle;
                 this.size = size;
                 this.alpha = 1; // 透明度
             }
 
             move() {
-                this.x += this.speed * Math.cos(this.direction);
-                this.y += this.speed * Math.sin(this.direction);
+                this.x += this.speed * Math.cos(this.angle);
+                this.y += this.speed * Math.sin(this.angle);
                 this.alpha -= 0.02; // 渐变消失
             }
 
@@ -54,12 +54,11 @@
         // 生成粒子
         let particles = [];
 
-        function generateParticles(x, y) {
+        function generateParticles(x, y, angle) {
             for (let i = 0; i < 200; i++) {
                 const speed = Math.random() * 2 + 1;
-                const direction = Math.random() * Math.PI * 2; // 确保方向正常
-                const size = Math.random() * 2 + 1;
-                particles.push(new Particle(x, y, speed, direction, size));
+                // 粒子的方向固定为沿着路径的方向
+                particles.push(new Particle(x, y, speed, angle, Math.random() * 2 + 1));
             }
         }
 
@@ -73,11 +72,16 @@
         // 动画循环
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // 生成粒子在爱心形状上
+
+            // 生成粒子沿爱心形状路径
             const t = (Date.now() / 100) % (Math.PI * 2);
             const {x, y} = heartShape(t);
-            generateParticles(x, y);
+
+            // 计算当前点的角度 (计算路径的切线角度)
+            const nextPoint = heartShape(t + 0.01);
+            const angle = Math.atan2(nextPoint.y - y, nextPoint.x - x);
+
+            generateParticles(x, y, angle);
 
             // 更新并绘制粒子
             particles.forEach((particle, index) => {
