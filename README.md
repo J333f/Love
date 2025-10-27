@@ -1,101 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>粒子爱心</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: black;
-        }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
-</head>
-<body>
-    <canvas id="particleCanvas"></canvas>
-    <script>
-        const canvas = document.getElementById("particleCanvas");
-        const ctx = canvas.getContext("2d");
+# ❤️ Love - 完美的爱心动画
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+一个美丽的爱心动画项目，使用数学参数方程创建完美的爱心形状，带有绚丽的粒子效果。
 
-        // 粒子类
-        class Particle {
-            constructor(x, y, speed, angle, size) {
-                this.x = x;
-                this.y = y;
-                this.speed = speed;
-                this.angle = angle;
-                this.size = size;
-                this.alpha = 1; // 透明度
-            }
+## 🌟 特性
 
-            move() {
-                this.x += this.speed * Math.cos(this.angle);
-                this.y += this.speed * Math.sin(this.angle);
-                this.alpha -= 0.02; // 渐变消失
-            }
+- **完美的数学爱心曲线**：使用参数方程绘制完美的爱心形状
+- **动态粒子系统**：从爱心边缘生成粒子，带有重力和淡出效果
+- **渐变色彩**：多种颜色模式，点击切换
+- **心跳动画**：爱心会轻微跳动，模拟真实心跳
+- **平滑旋转**：爱心会缓慢旋转，增加动态感
+- **响应式设计**：适配各种屏幕尺寸
+- **交互效果**：点击爱心切换颜色模式并爆发粒子
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(255, 105, 180, " + this.alpha + ")";
-                ctx.fill();
-            }
-        }
+## 📁 文件说明
 
-        // 生成粒子
-        let particles = [];
+- `index.html` - 完美的爱心动画页面（GitHub Pages主页）
+- `love.html` - 完美的爱心动画页面
+- `README.md` - 项目说明
 
-        function generateParticles(x, y, angle) {
-            for (let i = 0; i < 200; i++) {
-                const speed = Math.random() * 2 + 1;
-                // 粒子的方向固定为沿着路径的方向
-                particles.push(new Particle(x, y, speed, angle, Math.random() * 2 + 1));
-            }
-        }
+## 🚀 使用方法
 
-        // 爱心形状的函数
-        function heartShape(t) {
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
-            return {x: x * 20 + canvas.width / 2, y: y * 20 + canvas.height / 3};
-        }
+### 本地运行
+1. 直接在浏览器中打开 `index.html` 或 `love.html` 文件
+2. 享受完美的爱心动画
+3. 点击爱心切换不同的颜色效果
+4. 观察粒子从爱心边缘生成并飘散
 
-        // 动画循环
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+### 部署到GitHub Pages
+1. 将所有文件上传到你的GitHub仓库
+2. 进入仓库的 Settings 页面
+3. 找到 Pages 设置
+4. 选择 Source 为 `main` 分支或 `master` 分支
+5. 保存后访问 `https://yourusername.github.io/your-repo-name` 即可看到效果
 
-            // 生成粒子沿爱心形状路径
-            const t = (Date.now() / 100) % (Math.PI * 2);
-            const {x, y} = heartShape(t);
+## 💡 技术特点
 
-            // 计算当前点的角度 (计算路径的切线角度)
-            const nextPoint = heartShape(t + 0.01);
-            const angle = Math.atan2(nextPoint.y - y, nextPoint.x - x);
+- **Canvas动画**：使用 HTML5 Canvas 进行高性能绘图
+- **数学算法**：使用爱心参数方程实现完美的形状
+- **粒子系统**：包含位置、速度、重力、透明度等物理效果
+- **渐变背景**：现代紫色渐变背景
+- **平滑动画**：使用 requestAnimationFrame 实现流畅动画
 
-            generateParticles(x, y, angle);
+## 🎨 颜色模式
 
-            // 更新并绘制粒子
-            particles.forEach((particle, index) => {
-                particle.move();
-                particle.draw();
-                if (particle.alpha <= 0) {
-                    particles.splice(index, 1);
-                }
-            });
+点击爱心可以切换4种不同的颜色模式：
+1. 粉紫色系
+2. 红橙黄渐变
+3. 蓝紫色调
+4. 粉绿搭配
 
-            requestAnimationFrame(animate);
-        }
+## ❤️ 爱心参数方程
 
-        animate();
-    </script>
-</body>
-</html>
+```
+x = 16 * sin³(t)
+y = -[13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t)]
+```
+
+这是经典的数学爱心曲线公式，产生完美的爱心形状。
+
+---
+
+**用代码表达爱意** ❤️✨
